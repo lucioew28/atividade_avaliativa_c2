@@ -1,4 +1,4 @@
-## Trabalho final PO e LPOO
+## Trabalho avaliativo LPOO
 
 Se for utilizar no Vscode, favor instalar a extenção: Extension Pack for Java
 
