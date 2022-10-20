@@ -3,15 +3,13 @@ package main;
 public class Conta implements Transacao{
 	private String nome;
 	private String cpf;
-	private static int next_numero = 1;
 	private int numero = 0;
 	private double valor_na_conta;
 	
-	public Conta(String nome, String cpf) {
+	public Conta(String nome, String cpf, int numero) {
 		this.nome = nome;
 		this.cpf = cpf;
-		numero = next_numero;
-		next_numero++;
+		this.numero = numero;
 	}
 	
 	public String getNome() {
@@ -22,17 +20,16 @@ public class Conta implements Transacao{
 		return this.cpf;
 	}
 	
+	public int getNumero() {
+		return this.numero;
+	}
+	
 	public void setNome(String novoNome) {
 		this.nome = novoNome;
 	}
 	
 	public void setCpf(String novoCpf) {
 		this.cpf = novoCpf;
-	}
-
-	@Override
-	public String toString() {
-		return "Conta [nome=" + nome + ", cpf=" + cpf + ", valor_na_conta=" + valor_na_conta + ", numero=" + numero + "]";
 	}
 
 	@Override
@@ -65,6 +62,11 @@ public class Conta implements Transacao{
 		outraConta.deposito(valor);
 		
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Conta [nome=" + nome + ", cpf=" + cpf + ", valor_na_conta=" + valor_na_conta + ", numero=" + numero + "]";
 	}
 
 }
