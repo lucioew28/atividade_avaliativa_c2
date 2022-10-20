@@ -118,6 +118,12 @@ public class MenuPage implements ActionListener{
 	JButton transferir = new JButton("Transferir");
 	
 	JLabel transfMensage = new JLabel("*Campos obrigadorios");
+	
+	//rest
+	JLabel restTitle = new JLabel("Trabalho POO");
+	JLabel restName1 = new JLabel("- Lúcio Ewald do Nascimento");
+	JLabel restName2 = new JLabel("- Gustavo Trovoada");
+	JLabel restName3 = new JLabel("- Jhony Rodrigues");
 
 	
 	
@@ -129,6 +135,7 @@ public class MenuPage implements ActionListener{
 	JPanel panelSaque = new JPanel();
 	JPanel panelDeposito = new JPanel();
 	JPanel panelTransferencia = new JPanel();
+	JPanel panelRest = new JPanel();
 	
 	JFrame frame = new JFrame();
 	JButton btnCadastro = new JButton("1. Cadastrar Conta");
@@ -209,6 +216,13 @@ public class MenuPage implements ActionListener{
 		transferir.addActionListener(this);
 		
 		transfMensage.setBounds(90,200,300,40);
+		
+		//rest
+		restTitle.setBounds(90, 120, 260, 40);
+		restName1.setBounds(90, 140, 260, 40);
+		restName2.setBounds(90, 160, 260, 40);
+		restName3.setBounds(90, 180, 260, 40);
+		
 		
 		
 		
@@ -327,9 +341,18 @@ public class MenuPage implements ActionListener{
 		panelTransferencia.setBounds(260, 0, 440,420);
 		panelTransferencia.setVisible(false);
 		panelTransferencia.setLayout(null);
+		
+		
+		//panelRest
+		panelRest.add(restTitle);
+		panelRest.add(restName1);
+		panelRest.add(restName2);
+		panelRest.add(restName3);
+		
+		panelRest.setBackground(color);
+		panelRest.setBounds(260, 0, 440,420);
+		panelRest.setLayout(null);
 	
-		
-		
 		
 		//frame
 		frame.add(panelCadastro);
@@ -337,6 +360,7 @@ public class MenuPage implements ActionListener{
 		frame.add(panelSaque);
 		frame.add(panelDeposito);
 		frame.add(panelTransferencia);
+		frame.add(panelRest);
 		
 		frame.add(btnCadastro);
 		frame.add(btnSaldo);
@@ -361,6 +385,7 @@ public class MenuPage implements ActionListener{
 			panelSaque.setVisible(false);
 			panelDeposito.setVisible(false);
 			panelTransferencia.setVisible(false);
+			panelRest.setVisible(false);
 		}
 		if(e.getSource()==btnSaldo) {
 			System.out.println("saldo");
@@ -369,6 +394,7 @@ public class MenuPage implements ActionListener{
 			panelSaque.setVisible(false);
 			panelDeposito.setVisible(false);
 			panelTransferencia.setVisible(false);
+			panelRest.setVisible(false);
 		}
 		if(e.getSource()==btnSaque) {
 			System.out.println("sacar");
@@ -377,6 +403,7 @@ public class MenuPage implements ActionListener{
 			panelSaque.setVisible(true);
 			panelDeposito.setVisible(false);
 			panelTransferencia.setVisible(false);
+			panelRest.setVisible(false);
 		}
 		if(e.getSource()==btnDeposito) {
 			System.out.println("deposito");
@@ -385,6 +412,7 @@ public class MenuPage implements ActionListener{
 			panelSaque.setVisible(false);
 			panelDeposito.setVisible(true);
 			panelTransferencia.setVisible(false);
+			panelRest.setVisible(false);
 		}
 		if(e.getSource()==btnTransf) {
 			System.out.println("transferir");
@@ -393,6 +421,11 @@ public class MenuPage implements ActionListener{
 			panelSaque.setVisible(false);
 			panelDeposito.setVisible(false);
 			panelTransferencia.setVisible(true);
+			panelRest.setVisible(false);
+		}
+		if(e.getSource()==btnSair) {
+			System.out.println("sair");
+			frame.dispose();
 		}
 		
 		
