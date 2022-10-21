@@ -1,6 +1,6 @@
 ## Trabalho avaliativo LPOO
 
-![Alt text](imgs/tela-cadastro.jpg)
+![Alt text](imgs/tela-cadastro.png)
 
 Se for utilizar no Vscode, favor instalar a extenção: Extension Pack for Java
 
