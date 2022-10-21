@@ -18,6 +18,10 @@ import main.ContaEspecial;
 
 public class MenuPage implements ActionListener{
 	Color dangerColor = new Color(210,100,102);
+	Color sucessColor = new Color(0,102,0);
+	
+	//vetor de contas
+	CadConta arrConta = new CadConta();
 	
 	//helpers
 	public boolean validaCampos(JTextField[] campos, JLabel mensagem) {
@@ -34,9 +38,11 @@ public class MenuPage implements ActionListener{
 		
 		if(pass == true) {
 			mensagem.setForeground(Color.black);
+			mensagem.setText("*Campos obrigadorios");
 			return true;
 		}else {
 			mensagem.setForeground(dangerColor);
+			mensagem.setText("*Campos obrigadorios");
 			return false;
 		}
 	}
@@ -53,10 +59,26 @@ public class MenuPage implements ActionListener{
 		return -1;
 	}
 	
+	public void limpaCampos(JTextField[] campos) {
+		for(int i=0; i < campos.length; i++) {
+			campos[i].setText("");
+		}
+	}
+	
+	public void insereNovaConta(String nome, String cpf, String numero, String limite, JLabel mensagem) {
+		if(limite.length() <= 0) {
+			arrConta.insere(new Conta(nome, cpf, Integer.parseInt(numero)));
+			mensagem.setText("Conta cadastrada co sucesso!!!");
+			mensagem.setForeground(sucessColor);
+			
+		}else {
+			arrConta.insere(new ContaEspecial(nome, cpf, Integer.parseInt(numero), Double.parseDouble(limite)));
+			mensagem.setText("Conta cadastrada co sucesso!!!");
+			mensagem.setForeground(sucessColor);
+		}
+	}
 	
 	
-	//vetor de contas
-	CadConta arrConta = new CadConta();
 	
 	//cadastro
 	JLabel labelNome = new JLabel("Nome*");
@@ -433,71 +455,35 @@ public class MenuPage implements ActionListener{
 		
 		
 		//cadastro
-		if(e.getSource()==confirmCad) {
-		
-			String nome = cadNome.getText();
-			String cpf = cadCPF.getText();
-			String limite = cadLimite.getText();
-			String numero = cadNumero.getText();
+		if(e.getSource() == confirmCad) {
+			
+			JTextField[] campos = new JTextField[]{cadNome, cadCPF, cadNumero};
+			JTextField[] camposToClean = new JTextField[]{cadNome, cadCPF, cadLimite, cadNumero};
+			
+			int tam = arrConta.getTamanho();
 			
 			//valida campos
-			if(nome.length() == 0) {
-				cadNome.setBackground(dangerColor);
-			}else {
-				cadNome.setBackground(Color.white);
-			}
+			boolean valida = validaCampos(campos, cadMensagem);
+			System.out.println(valida);
 			
-			if(cpf.length() == 0) {
-				cadCPF.setBackground(dangerColor);
-			}else {
-				cadCPF.setBackground(Color.white);
-			}
-			
-			if(numero.length() == 0) {
-				cadNumero.setBackground(dangerColor);
-			}else {
-				cadNumero.setBackground(Color.white);
-			}
-			
-			boolean difConta = true;
-			
-			if(arrConta.getTamanho() > 0) {
-				for(int i=0; i < arrConta.getTamanho(); i++) {
-					if(arrConta.getConta(i).getNumero() == Integer.parseInt(numero)) {
-						difConta = false;
-						cadMensagem.setText("*Já existe uma conta com esse número");
-					}
-				}
-			}
-			
-			
-			
-			Conta conta;
-			ContaEspecial contaEspecial;
-			if(nome.length() != 0 && cpf.length() != 0 && numero.length() != 0 && difConta == true) {
-				if(limite.length() == 0) {
-					conta = new Conta(nome, cpf, Integer.parseInt(numero));
-					arrConta.insere(conta);
-				} else {
-					contaEspecial = new ContaEspecial(nome, cpf, Integer.parseInt(numero), Double.parseDouble(limite));
-					arrConta.insere(contaEspecial);
-				}
-				cadMensagem.setText("*Campos obrigadorios");
+			if(valida == true) {
+				//pesquisa conta
+				int pesquisa = pesquisaConta(cadNumero);
+				System.out.println(pesquisa);
 				
+				if(pesquisa != -1) {
+					cadMensagem.setText("Conta de número " + cadNumero.getText() + " ja cadastrada.");	
+				}else {
+					insereNovaConta(cadNome.getText(), cadCPF.getText(), cadNumero.getText(), cadLimite.getText(), cadMensagem );
+				}
 			}
-			
-			for(int i=0; i < arrConta.getTamanho(); i++) {
-				System.out.println(arrConta.getConta(i).toString());
-			}
-			
-			System.out.println(arrConta.getTamanho());
 		
 			//reset text fiels
-			cadNome.setText("");
-			cadCPF.setText("");
-			cadNumero.setText("");
-			cadLimite.setText("");			
+			limpaCampos(camposToClean);		
 		}
+		
+		
+		
 		
 		//saldo
 		if(e.getSource() == consultSaldo) {
@@ -514,7 +500,9 @@ public class MenuPage implements ActionListener{
 				System.out.println(pesquisa);
 				
 				if(pesquisa != -1) {
-					System.out.println(arrConta.getConta(pesquisa).saldo());
+					foundMensage.setText("Saldo atual: R$ " + arrConta.getConta(pesquisa).saldo());
+				}else {
+					foundMensage.setText("Conta não encontrada.");
 				}
 			}
 		}
@@ -535,9 +523,17 @@ public class MenuPage implements ActionListener{
 				System.out.println(pesquisa);
 				
 				if(pesquisa != -1) {
-					System.out.println(arrConta.getConta(pesquisa).saldo());
-					System.out.println(arrConta.getConta(pesquisa).saque(Integer.parseInt(sacValor.getText())));
-					System.out.println(arrConta.getConta(pesquisa).saldo());
+					
+					boolean sac = arrConta.getConta(pesquisa).saque(Integer.parseInt(sacValor.getText()));
+					if(sac == true) {
+						sacMensage.setText("Saque realizado com sucesso.");
+						sacMensage.setForeground(sucessColor);
+					}else {
+						sacMensage.setText("Saldo insuficiente.");
+					}
+					
+				}else {
+					sacMensage.setText("Conta não encontrada.");
 				}
 			}
 		}
@@ -558,9 +554,11 @@ public class MenuPage implements ActionListener{
 				System.out.println(pesquisa);
 				
 				if(pesquisa != -1) {
-					System.out.println(arrConta.getConta(pesquisa).saldo());
 					arrConta.getConta(pesquisa).deposito(Double.parseDouble(depValor.getText()));
-					System.out.println(arrConta.getConta(pesquisa).saldo());
+					depMensage.setText("Deposito realizado com sucesso!!!");
+					depMensage.setForeground(sucessColor);
+				}else {
+					depMensage.setText("Conta não encontrada.");
 				}
 			}
 		}
@@ -583,13 +581,14 @@ public class MenuPage implements ActionListener{
 				System.out.println(pesquisaDestino);
 				
 				if(pesquisa != -1 && pesquisaDestino != -1) {
-					System.out.println(arrConta.getConta(pesquisa).saldo());
-					System.out.println(arrConta.getConta(pesquisaDestino).saldo());
-					
 					arrConta.getConta(pesquisa).transferencia(Double.parseDouble(transfValor.getText()), arrConta.getConta(pesquisaDestino));
-					
-					System.out.println(arrConta.getConta(pesquisa).saldo());
-					System.out.println(arrConta.getConta(pesquisaDestino).saldo());
+					transfMensage.setText("Transferencia realizada com sucesso!!!.");
+				}else if(pesquisa != -1 && pesquisaDestino == -1) {
+					transfMensage.setText("Conta destino não encontrada.");
+				}else if(pesquisa == -1 && pesquisaDestino != -1) {
+					transfMensage.setText("Conta remetente não encontrada.");
+				}else if(pesquisa == -1 && pesquisaDestino == -1) {
+					transfMensage.setText("Contas não encontradas.");
 				}
 			}
 		}
