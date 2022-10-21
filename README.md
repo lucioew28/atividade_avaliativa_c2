@@ -1,5 +1,7 @@
 ## Trabalho avaliativo LPOO
 
+![Alt text](imgs/tela-cadastro.jpg)
+
 Se for utilizar no Vscode, favor instalar a extenção: Extension Pack for Java
 
 ## Estrutura de arquivos
