@@ -144,8 +144,9 @@ public class MenuPage implements ActionListener{
 	//rest
 	JLabel restTitle = new JLabel("Trabalho POO");
 	JLabel restName1 = new JLabel("- Lúcio Ewald do Nascimento");
-	JLabel restName2 = new JLabel("- Gustavo Trovoada");
-	JLabel restName3 = new JLabel("- Jhony Rodrigues");
+	JLabel restName2 = new JLabel("- Luiz Henrique");
+	JLabel restName3 = new JLabel("- Gustavo de Oliveira Christ");
+	JLabel restName4 = new JLabel("- Jhony Rodrigues");
 
 	
 	
@@ -244,6 +245,7 @@ public class MenuPage implements ActionListener{
 		restName1.setBounds(90, 140, 260, 40);
 		restName2.setBounds(90, 160, 260, 40);
 		restName3.setBounds(90, 180, 260, 40);
+		restName4.setBounds(90, 200, 260, 40);
 		
 		
 		
@@ -370,6 +372,7 @@ public class MenuPage implements ActionListener{
 		panelRest.add(restName1);
 		panelRest.add(restName2);
 		panelRest.add(restName3);
+		panelRest.add(restName4);
 		
 		panelRest.setBackground(color);
 		panelRest.setBounds(260, 0, 440,420);
